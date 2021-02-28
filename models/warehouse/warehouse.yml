@@ -1,0 +1,18 @@
+
+version: 2
+
+models:
+  - name: dim_users
+    description: "Users' characteristics & attribution"
+    columns:
+      - name: user_id
+        description: "The user's ID - also the table's PK"
+        tests:
+            - unique
+            - not_null
+      - name: created_at
+        description: "The user's creation time"
+      - name: activated_at
+        description: "The user's activation time"
+      - name: deleted_at
+        description: "The user's deletion time"

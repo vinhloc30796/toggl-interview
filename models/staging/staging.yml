@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: sources
+    tables:
+      - name: ga_sessions
+      - name: charges
+      - name: workspaces
+      - name: users
+      - name: pricing_plans
+      - name: subscription_periods
