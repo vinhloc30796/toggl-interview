@@ -16,22 +16,19 @@ sources_users as (
 stg_ga_sessions as (
     select *
     from {{ ref('stg_ga_sessions') }}
-),
-
-inter_ga_sessions_first_dates as (
-    -- Find the first session dates for each user
-    select
-        user_id,
-        min(date) as first_session_at,
-    from stg_ga_sessions
-    group by 1
-),
-
-users_attributions as (
-    select
-        *
-    from sources_users
+    -- Find only the first session
+    where session_order = 1
 )
 
-select * 
-from users_attributions
+select 
+    users.user_id,
+    users.created_at,
+    users.activated_at,
+    users.deleted_at,
+    first_sessions.date as fta_date,
+    first_sessions.campaign as fta_campaign,
+    first_sessions.source as fta_source,
+    first_sessions.medium as fta_medium,
+from sources_users as users
+left join stg_ga_sessions as first_sessions
+    on users.user_id = first_sessions.user_id -- Some users have no sessions
