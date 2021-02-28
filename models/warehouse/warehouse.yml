@@ -24,3 +24,17 @@ models:
         description: "The user's first touch attributed UTM source"
       - name: fta_medium
         description: "The user's first touch attributed UTM medium"
+  
+  - name: fct_charges
+    description: "Charges for each month"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - workspace_id
+          - charge_month
+    columns:
+      - name: charge_month
+      - name: amount_id
+      - name: user_count
