@@ -16,3 +16,11 @@ models:
         description: "The user's activation time"
       - name: deleted_at
         description: "The user's deletion time"
+      - name: fta_date
+        description: "The user's first touch attributed date"
+      - name: fta_campaign
+        description: "The user's first touch attributed UTM campaign"
+      - name: fta_source
+        description: "The user's first touch attributed UTM source"
+      - name: fta_medium
+        description: "The user's first touch attributed UTM medium"

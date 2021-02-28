@@ -9,3 +9,37 @@ sources:
       - name: users
       - name: pricing_plans
       - name: subscription_periods
+
+models:
+  - name: stg_ga_sessions
+    description: "A basic re-formatting of sources.ga_sessions"
+    columns:
+      - name: session_id
+        description: "A newly created session_id (using BQ's FARM_FINGERPRINT()) - also used as fake timestamp for ordering of sessions."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "The user's ID - also the table's FK to users"
+      - name: date
+        description: "The session's date"
+      - name: campaign
+        description: "The session's UTM campaign"
+      - name: source
+        description: "The session's UTM source"
+      - name: medium
+        description: "The session's UTM medium"
+      - name: requested_demo
+        description: "Whether the user requested demo in this session"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - user_id
+          - date
+          - campaign
+          - source
+          - medium
+          - requested_demo
+        
