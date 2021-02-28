@@ -36,5 +36,5 @@ models:
           - campaign
           - source
           - medium
-          - request_demo
+          - requested_demo
         
