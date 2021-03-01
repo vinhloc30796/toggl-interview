@@ -1,7 +1,7 @@
 with 
-src_charges as (
+stg_charges as (
     select *
-    from {{ source('sources', 'charges') }}
+    from {{ ref('stg_charges') }}
 )
 
 select *

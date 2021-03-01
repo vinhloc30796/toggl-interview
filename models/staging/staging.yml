@@ -34,6 +34,7 @@ models:
     tests:
     # Ensuring that we don't have duplicate rows
     # across the below column
+    # because we don't care about same-date sessions with same UTM info
     - dbt_utils.unique_combination_of_columns:
         combination_of_columns:
           - user_id
@@ -42,4 +43,28 @@ models:
           - source
           - medium
           - requested_demo
+  
+  - name: stg_charges
+    description: "A basic re-formatting of sources.ga_sessions"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    # because a workspace should only be charged once per month
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - workspace_id
+          - charge_month
+    columns:
+      - name: charge_month
+      - name: amount_id
+      - name: user_count
+
+  - name: stg_pricing_plans
+    description: "A basic re-formatting of sources.pricing_plans"
+    columns:
+      - name: pricing_plan_id
+        description: "The user's ID - also the table's PK"
+        tests:
+          - unique
+          - not_null
         
