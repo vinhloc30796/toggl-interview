@@ -70,14 +70,6 @@ models:
 
   - name: stg_workspaces
     description: "A basic re-formatting of sources.workspaces"
-    tests:
-    # Ensuring that we don't have duplicate rows
-    # across the below column
-    # because a workspace should only have one trial per pricing plan
-    - dbt_utils.unique_combination_of_columns:
-        combination_of_columns:
-          - workspace_id
-          - charge_month
     columns:
       - name: workspace_id
         description: "The workspace's ID - also the table's PK"
