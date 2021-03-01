@@ -23,6 +23,9 @@ and [GitLab's internal dbt Guide](https://about.gitlab.com/handbook/business-ops
 ### For developers: 
 Please clone this repo and follow [dbt's installation instructions](https://docs.getdbt.com/docs/dbt-cloud/cloud-quickstart) to view & edit code.
 
+Here's an overview of the data transformation DAG.
+![Lineage Graph](./lineagegraph.png)
+
 ### For business users:
 Business users will gain access to the below data tables in a GUI-driven, self-service BI solution.
 
