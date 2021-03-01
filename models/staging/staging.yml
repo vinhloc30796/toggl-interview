@@ -70,9 +70,37 @@ models:
 
   - name: stg_workspaces
     description: "A basic re-formatting of sources.workspaces"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    # because a workspace should only have one trial per pricing plan
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - workspace_id
+          - charge_month
     columns:
       - name: workspace_id
         description: "The workspace's ID - also the table's PK"
         tests:
           - unique
+          - not_null
+  
+  - name: stg_subscription_periods
+    description: "A basic re-formatting of sources.subscription_periods to include only trials"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    # because a workspace should only have one trial per pricing plan per start date
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - workspace_id
+          - pricing_plan_id
+          - started_on
+    columns:
+      - name: workspace_id
+        description: "The workspace's ID"
+        tests:
+          - not_null
+      - name: started_on
+        tests:
           - not_null
