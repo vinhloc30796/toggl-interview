@@ -36,8 +36,17 @@ models:
           - charge_month
     columns:
       - name: charge_month
-      - name: amount_id
+        tests:
+          - not_null
+      - name: amount_usd
+        tests:
+          - not_null
       - name: user_count
+        tests:
+          - not_null
+      - name: mrr_type
+        tests:
+          - not_null
 
   - name: dim_workspaces
     description: "Workspaces are collections of 1 or more Toggl Track users. Every workspace has exactly 1 user that is the workspace owner"
