@@ -45,6 +45,7 @@ models:
         tests:
           - not_null
       - name: mrr_type
+        description: "MRR type for each workspace [New; Retained; Reactivated]. New if first charged. Retained if charged last month. Reactivated if previously charged, but not charged last month."
         tests:
           - not_null
 
