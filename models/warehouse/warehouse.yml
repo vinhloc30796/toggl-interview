@@ -38,3 +38,19 @@ models:
       - name: charge_month
       - name: amount_id
       - name: user_count
+
+  - name: dim_workspaces
+    description: "Workspaces are collections of 1 or more Toggl Track users. Every workspace has exactly 1 user that is the workspace owner"
+    columns:
+      - name: workspace_id
+        description: "The workspace's ID - also the table's PK"
+        tests:
+          - unique
+          - not_null
+      - name: most_recent_charge_month
+      - name: most_recent_user_count
+      - name: most_recent_plan_period
+      - name: most_recent_plan_name
+      - name: total_charge_amount
+        tests:
+          - not_null
