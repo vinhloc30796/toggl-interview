@@ -1,3 +1,12 @@
+{{ config(
+    materialized='table',
+    cluster_by=["workspace_id"],
+    partition_by={
+        "field": "charge_month",
+        "data_type": "date"
+    } 
+) }}
+
 with 
 charges as (
     select *
@@ -40,4 +49,3 @@ from charges
 left join charges_window
     on charges.workspace_id = charges_window.workspace_id
     and charges.charge_month = charges_window.charge_month
-order by workspace_id, charge_month

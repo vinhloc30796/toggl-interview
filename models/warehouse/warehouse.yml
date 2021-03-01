@@ -77,3 +77,19 @@ models:
           - workspace_id
           - pricing_plan_id
           - started_on
+
+  - name: fct_demo_requests
+    description: "Demo requests from each user"
+    columns:
+      - name: user_id
+        description: "The user's ID"
+        tests:
+          - not_null
+      - name: session_id
+        description: "The session's ID"
+        tests:
+          - not_null
+          - unique
+      - name: date
+        tests:
+          - not_null
