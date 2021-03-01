@@ -1,3 +1,11 @@
+{{ config(
+    materialized='table',
+    partition_by={
+        "field": "created_at",
+        "data_type": "date"
+    } 
+) }}
+
 with
 workspaces as (
     select *
