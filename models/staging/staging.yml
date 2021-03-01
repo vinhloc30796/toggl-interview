@@ -9,3 +9,90 @@ sources:
       - name: users
       - name: pricing_plans
       - name: subscription_periods
+
+models:
+  - name: stg_ga_sessions
+    description: "A basic re-formatting of sources.ga_sessions"
+    columns:
+      - name: session_id
+        description: "A newly created session_id (using BQ's FARM_FINGERPRINT()) - also used as fake timestamp for ordering of sessions."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "The user's ID - also the table's FK to users"
+      - name: date
+        description: "The session's date"
+      - name: campaign
+        description: "The session's UTM campaign"
+      - name: source
+        description: "The session's UTM source"
+      - name: medium
+        description: "The session's UTM medium"
+      - name: requested_demo
+        description: "Whether the user requested demo in this session"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    # because we don't care about same-date sessions with same UTM info
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - user_id
+          - date
+          - campaign
+          - source
+          - medium
+          - requested_demo
+  
+  - name: stg_charges
+    description: "A basic re-formatting of sources.ga_sessions"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    # because a workspace should only be charged once per month
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - workspace_id
+          - charge_month
+    columns:
+      - name: charge_month
+      - name: amount_id
+      - name: user_count
+
+  - name: stg_pricing_plans
+    description: "A basic re-formatting of sources.pricing_plans"
+    columns:
+      - name: pricing_plan_id
+        description: "The user's ID - also the table's PK"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_workspaces
+    description: "A basic re-formatting of sources.workspaces"
+    columns:
+      - name: workspace_id
+        description: "The workspace's ID - also the table's PK"
+        tests:
+          - unique
+          - not_null
+  
+  - name: stg_subscription_periods
+    description: "A basic re-formatting of sources.subscription_periods to include only trials"
+    tests:
+    # Ensuring that we don't have duplicate rows
+    # across the below column
+    # because a workspace should only have one trial per pricing plan per start date
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - workspace_id
+          - pricing_plan_id
+          - started_on
+    columns:
+      - name: workspace_id
+        description: "The workspace's ID"
+        tests:
+          - not_null
+      - name: started_on
+        tests:
+          - not_null
