@@ -67,4 +67,19 @@ models:
         tests:
           - unique
           - not_null
-        
+
+  - name: stg_workspaces
+    description: "A basic re-formatting of sources.workspaces"
+    columns:
+      - name: workspace_id
+        description: "The workspace's ID - also the table's PK"
+        tests:
+          - unique
+          - not_null
+      - name: most_recent_charge_month
+      - name: most_recent_user_count
+      - name: most_recent_plan_period
+      - name: most_recent_plan_name
+      - name: total_charge_amount
+        tests:
+          - not_null
